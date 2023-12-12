@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block main %}
+<form method="POST">
+    <label for="username">Логин<br>
+        <input class="input" name="username" type="text">
+    </label>
+    <br>
+    <label for="password">Пароль<br>
+        <input class="input" name="password" type="password">
+    </label>
+    <br>
+    <div class="errors">{{ errors }}</div>
+    <br>
+    <button class="primary-button" type="submit">Зарегистрироваться</button>
+</form>
+<div class="caption">Уже есть аккаунт? <span><a href="/login">Войти</a></span></div>
+{% endblock %}

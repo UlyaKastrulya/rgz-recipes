@@ -1,0 +1,47 @@
+input {
+	width: 320px;
+	font-size: 13px;
+	padding: 6px 0 4px 10px;
+	border: 1px solid #cecece;
+	background: #F6F6f6;
+	border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.primary-button{
+    display: block;
+    width: 320px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background-color: #7add6d;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box; 
+  }
+  
+  .primary-button:hover {
+    background-color: #66db56;
+  }
+
+.errors {
+
+color: #ff0000; 
+font-size: 14px;
+margin-top: 5px; 
+}
+
+.caption {
+    margin-top: 10px;
+} 
+
+form {
+
+justify-content: center;
+align-items: center;
+}
+      
