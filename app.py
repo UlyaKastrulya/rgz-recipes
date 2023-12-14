@@ -90,6 +90,11 @@ def recipes_page():
     username = (users.query.filter_by(id=current_user.id).first()).username
     if request.method == 'GET':
         all_recipes = recipes.query.all()
+        all_ingridients = []
+        for i in all_recipes:
+            all_ingridients.extend((i.ingridients.lower()).split(", "))
+        all_ingridients = list(set(all_ingridients))
+        print(all_ingridients)
         return render_template('recipes.html', username=username, all_recipes=all_recipes)
     else:
         name = request.form.get('name')
@@ -111,3 +116,5 @@ def delete_acct():
     db.session.delete(delUser)
     db.session.commit()
     return redirect("/login")
+
+

@@ -13,7 +13,7 @@ input {
     width: 320px;
     padding: 10px 20px;
     border-radius: 25px;
-    background-color: #7add6d;
+    background-color: #007bff;
     color: #fff;
     text-align: center;
     text-decoration: none;
@@ -25,7 +25,7 @@ input {
   }
   
   .primary-button:hover {
-    background-color: #66db56;
+    background-color: #0056b3;
   }
 
 .errors {
@@ -39,14 +39,121 @@ margin-top: 5px;
     margin-top: 10px;
 } 
 
-form {
-
-justify-content: center;
-align-items: center;
+.bodyform {
+  width: 330px; 
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
 }
 
-img {
-  width: 240px;
-  height: 160px;
+label {
+  
+  display: block;
+  margin-bottom: 0px; 
 }
-      
+
+header {
+  background-color: #f3f3f3;
+  padding: 10px 20px;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu-items nav a,
+.user-actions a {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+.menu-items nav a:hover,
+.user-actions a:hover {
+    background-color: #e0e0e0;
+}
+.username {
+  margin-right: 10px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.user-actions .delete-account {
+  background-color: #d44d4d; 
+  color: #fff; 
+  font-weight: bold;
+  
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s ease;
+  background-color: #fff;
+  margin: 10px;
+  max-width: 350px; 
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ccc; 
+  max-height: 220px;
+}
+
+.card-content {
+  padding: 10px;
+}
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px; 
+  margin: 0 auto;
+  margin-top: 60px;
+}
+.search-container {
+  display: flex;
+  max-width: 400px; 
+  margin: 0 auto; 
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 25px; 
+  overflow: hidden;
+}
+
+.search-button {
+  background-color: #007bff; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 0 25px 25px 0; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3; /* Цвет фона при наведении */
+}
+h1 {
+  font-size: 42px;
+}
