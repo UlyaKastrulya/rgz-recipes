@@ -9,7 +9,7 @@ class users(db.Model, UserMixin):
     password = db.Column(db.String(102), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False)
 
-    def repr(self):
+    def __repr__(self):
         return f"id:{self.id}, username:{self.username}, is_admin:{self.is_admin}"
 
 
@@ -20,7 +20,7 @@ class recipes(db.Model):
     ingridients = db.Column(db.String, nullable=False)
     steps = db.Column(db.String, nullable=False)
     
-    def repr(self):
+    def __repr__(self):
         return f"id:{self.id}, name:{self.name}, image_url:{self.image_url}, ingridients:{self.ingridients}, steps:{self.steps}"
 
 

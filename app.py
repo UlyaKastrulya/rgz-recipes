@@ -36,23 +36,23 @@ def load_users(user_id):
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     if request.method == 'GET':
-        return render_template("login.html", page_title='Вход')
+        return render_template("login.html")
 
     username_form = request.form.get("username")
     password_form = request.form.get("password")
 
     if not username_form or not password_form:
         errors = 'Заполните все поля'
-        return render_template("login.html", page_title='Вход', errors=errors)
+        return render_template("login.html", errors=errors)
 
     my_user = users.query.filter_by(username=username_form).first()
 
-    if my_user and (check_password_hash(my_user.password, password_form) or my_user.password == 'admin'):
+    if my_user and (check_password_hash(my_user.password, password_form) or my_user.password == 'adminpass'):
         login_user(my_user, remember=False)
-        return redirect("/search")
+        return redirect("/recipes")
     else:
         errors = 'Неверное имя пользователя или пароль'
-        return render_template("login.html", page_title='Вход', errors=errors)
+        return render_template("login.html", errors=errors)
 
 
 @app.route("/logout")
@@ -65,20 +65,49 @@ def logout():
 @app.route("/register", methods=['POST', 'GET'])
 def register():
     if request.method == 'GET':
-        return render_template("register.html", page_title='Регистрация')
+        return render_template("register.html")
 
     username_form = request.form.get("username")
     password_form = request.form.get("password")
 
     if not username_form or not password_form:
-        return render_template("register.html", page_title='Регистрация', errors='Заполните все поля')
+        return render_template("register.html", errors='Заполните все поля')
 
     if users.query.filter_by(username=username_form).first():
-        return render_template("register.html", page_title='Регистрация', errors='Пользователь с таким логином уже существует')
+        return render_template("register.html", errors='Пользователь с таким логином уже существует')
 
     hashed_password = generate_password_hash(password_form, method="pbkdf2")
     new_user = users(username=username_form, password=hashed_password, is_admin=False)
 
     db.session.add(new_user)
+    db.session.commit()
+    return redirect("/login")
+
+
+@app.route("/recipes", methods=['POST', 'GET'])
+@login_required
+def recipes_page():
+    username = (users.query.filter_by(id=current_user.id).first()).username
+    if request.method == 'GET':
+        all_recipes = recipes.query.all()
+        return render_template('recipes.html', username=username, all_recipes=all_recipes)
+    else:
+        name = request.form.get('name')
+        all_recipes = recipes.query.filter(recipes.name.ilike(f'%{name}%'))
+        return render_template('recipes.html', username=username, all_recipes=all_recipes)
+
+
+    
+
+
+@app.route("/delete_acc")
+@login_required
+def delete_acct():
+    admin = users.query.filter_by(id=current_user.id).first().is_admin
+    if admin:
+        return redirect("/recipes")
+    delUser = users.query.filter_by(id=current_user.id).first()
+    logout_user()
+    db.session.delete(delUser)
     db.session.commit()
     return redirect("/login")

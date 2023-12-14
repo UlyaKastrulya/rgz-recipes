@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block main %}
+<header>
+    <div class="header-container">
+        <div style="margin-right: auto; display: flex;">
+            {% if username == 'Julia' %}
+                <nav>
+                    <a href="/new" style="margin-right: 24px;">Добавить рецепт</a>
+                    <a href="/edit" style="margin-right: 24px;">Редактировать</a>
+                    <a href="/delete" style="margin-right: 24px;">Удалить</a>
+                </nav>
+            {% else %}
+            {% endif %}
+        </div>
+            <div style="display: flex;">
+                <div class="username">
+                    {{ username }}
+                </div>
+                <div>
+                    <a href="/logout">Выход</a>
+                    <a href="/delete_acc">Удалить аккаунт</a>
+
+                </div>
+            </div>
+    </div>
+</header>
+<h1>Рецепты</h1>
+<form class="searching" method="POST">
+    <input type="text" placeholder="Введите название рецепта" name="name">
+    <button type="submit">Найти</button>
+<main>
+    {% for i in all_recipes %}
+    <div class = "card">
+        <img src="{{i.image_url}}"> 
+        <h2>{{i.name}}</h2>
+        <div>{{i.ingridients}}</div>
+        <div>{{i.steps}}</div>
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}
