@@ -5,7 +5,7 @@ input {
 	border: 1px solid #cecece;
 	background: #F6F6f6;
 	border-radius: 8px;
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .primary-button{
@@ -54,7 +54,9 @@ label {
   
   display: block;
   margin-bottom: 0px; 
+
 }
+
 
 header {
   background-color: #f3f3f3;
@@ -115,7 +117,7 @@ body {
 
 .card img {
   width: 100%;
-  height: auto;
+  height: 220px;
   border-bottom: 1px solid #ccc; 
   max-height: 220px;
 }
@@ -157,3 +159,59 @@ body {
 h1 {
   font-size: 42px;
 }
+
+.form_add {
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.button_add {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button_add:hover {
+  background-color: #0056b3;
+}
+
+select {
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
+}
+
+.back{
+  background-color: rgb(162, 223, 104); 
+  color: white;
+}
+
+.search-ingredients {
+  display: flex;
+  max-width: 400px; 
+  margin: 0 auto; 
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 25px; 
+  overflow: hidden;
+}
+
+
+label {
+  cursor: pointer;
+
+}
+
+

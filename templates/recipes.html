@@ -8,9 +8,11 @@
                 <nav>
                     <a href="/new" class="button">Добавить рецепт</a>
                     <a href="/edit" class="button">Редактировать</a>
-                    <a href="/delete" class="button">Удалить</a><br>
-                    <div style="margin-left: 2px; margin-top: 10px;">Выполнила: Овчинникова Юля</div>
+                    <a href="/delete_recipes" class="button">Удалить</a><br>
+                    <a href="/recipes" class="back" style="margin-top: 10px;">Вернуться на главную</a><br>
+                    <div style="margin-left: 2px; margin-top: 10px; font-size: 14px;">Выполнила: Овчинникова Юля</div>
                 </nav>
+
             {% endif %}
         </div>
         <div class="user-info">
@@ -28,8 +30,21 @@
 <form class="searching" method="POST">
     <div class="search-container">
     <input type="text" placeholder="Введите название рецепта" name="name" class="search-container" style="flex: 1;  border: none; padding: 10px; outline: none;font-size: 16px;">
-    <button type="submit" class="search-button ">Найти</button>
+    <button type="submit" class="search-button">Найти</button><br>
     </div>
+    <div class="search-ingredients" style="margin-top: 20px;">
+    <input type="text" placeholder="Введите название ингредиента" name="name" class= "search-ingredients" style="flex: 1; border: none; padding: 10px; outline: none;font-size: 16px;">
+    <button type="submit" class="search-button">Найти</button><br>
+    </div>
+
+    <div> 
+        <select name="ingredientOption" style="width: 25%; margin-left: 700px; margin-top: 20px; border-radius: 50px;">
+            <option value="all" selected>В рецепте должны быть все ингредиенты</option>
+            <option value="any">В рецепте должен быть хотя бы один ингредиент</option>
+        </select>
+    </div>
+    
+    
     <main>
         <div class="card-container">
             {% for i in all_recipes %}
@@ -42,4 +57,5 @@
             {% endfor %}
         </div>
     </main>
+</form>
 {% endblock %}

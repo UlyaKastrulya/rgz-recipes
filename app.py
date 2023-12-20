@@ -102,9 +102,6 @@ def recipes_page():
         return render_template('recipes.html', username=username, all_recipes=all_recipes)
 
 
-    
-
-
 @app.route("/delete_acc")
 @login_required
 def delete_acct():
@@ -118,3 +115,75 @@ def delete_acct():
     return redirect("/login")
 
 
+@app.route("/")
+@app.route("/index")
+@login_required
+def start():
+    return redirect("/recipes", code=302)
+
+
+@app.route("/delete_recipes", methods = ['POST', 'GET'])
+def delete():
+    admin = users.query.filter_by(id=current_user.id).first().is_admin
+    if admin:
+        username = (users.query.filter_by(id=current_user.id).first()).username
+        all_recipes = recipes.query.all()
+        idRecipe= request.form.get("delete_recipes")
+        if request.method == 'GET':
+            return render_template("delete.html",
+                username = username,
+                all_recipes = all_recipes
+            )
+        else:
+            delrecipe= recipes.query.filter_by(id=idRecipe).first()
+            db.session.delete(delrecipe)
+            db.session.commit()
+
+            return redirect("/recipes", code=302)
+    else:
+        return redirect("/recipes")
+
+
+
+@app.route("/new", methods = ['POST', 'GET'])
+def new_recipes():
+    admin = users.query.filter_by(id=current_user.id).first().is_admin
+    if admin:
+        username = (users.query.filter_by(id=current_user.id).first()).username
+        idRecipe= request.form.get("delete_recipes")
+        if request.method == 'GET':
+            return render_template("add_new_recipes.html",
+                username = username
+            )
+        else:
+            name = request.form.get("input_name")
+            ingridients = request.form.get("input_ingridients")
+            steps = request.form.get("input_steps")
+            photo = request.form.get("input_img")
+
+            if not name or not ingridients or not steps or not photo:
+                errors="Заполните все поля"
+                return render_template("add_new_recipes.html",
+                username = username,
+                errors=errors
+            )
+            id = recipes.query.order_by(recipes.id.desc()).first().id + 1
+            newrecipe = recipes(
+                id = id,
+                name = name,
+                image_url = photo,
+                ingridients = ingridients,
+                steps = steps
+            )
+
+            db.session.add(newrecipe )
+            db.session.commit()
+
+            return redirect("/recipes", code=302)
+    else:
+        return redirect("/recipes")
+    
+
+@app.route("/edit")
+def edit_rs():
+    return render_template("edit_recipes.html")
