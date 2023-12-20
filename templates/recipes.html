@@ -30,13 +30,12 @@
 <form class="searching" method="POST">
     <div class="search-container">
     <input type="text" placeholder="Введите название рецепта" name="name" class="search-container" style="flex: 1;  border: none; padding: 10px; outline: none;font-size: 16px;">
-    <button type="submit" class="search-button">Найти</button><br>
     </div>
     <div class="search-ingredients" style="margin-top: 20px;">
-    <input type="text" placeholder="Введите название ингредиента" name="name" class= "search-ingredients" style="flex: 1; border: none; padding: 10px; outline: none;font-size: 16px;">
+    <input type="text" placeholder="Введите название ингредиента" name="name_ing" class= "search-ingredients" style="flex: 1; border: none; padding: 10px; outline: none;font-size: 16px;">
     <button type="submit" class="search-button">Найти</button><br>
     </div>
-
+    </form>
     <div> 
         <select name="ingredientOption" style="width: 25%; margin-left: 700px; margin-top: 20px; border-radius: 50px;">
             <option value="all" selected>В рецепте должны быть все ингредиенты</option>
@@ -57,5 +56,5 @@
             {% endfor %}
         </div>
     </main>
-</form>
+
 {% endblock %}

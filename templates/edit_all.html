@@ -27,3 +27,15 @@
     </div>
 </header>
 <h1 style="text-align: center;">Редактирование рецептов</h1>
+
+<form method="POST" class="form_add">
+    <input type="text" name="input_name" placeholder="Напишите название рецепта" style="height: 28px;" value="{{ recipe_to_edit.name }}"><br>
+    <input type="text" name="input_ingridients" placeholder="Напишите ингредиенты" style="height: 28px;" value="{{ recipe_to_edit.ingridients }}"><br>
+    <input type="text" name="input_steps" placeholder="Напишите шаги приготовления" style="height: 28px;"value="{{ recipe_to_edit.steps }}"><br>
+    <input type="text" name="input_img" placeholder="Вставьте ссылку на фотографию" style="height: 28px;" value="{{ recipe_to_edit.image_url }}"><br>
+    <span class="errors" style="margin-top: 100px;">{{errors}}</span>
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit" class="button_add">Изменить рецепт</button>
+    </div>
+</form>
+{% endblock %}

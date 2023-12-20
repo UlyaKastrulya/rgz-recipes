@@ -90,15 +90,24 @@ def recipes_page():
     username = (users.query.filter_by(id=current_user.id).first()).username
     if request.method == 'GET':
         all_recipes = recipes.query.all()
-        all_ingridients = []
-        for i in all_recipes:
-            all_ingridients.extend((i.ingridients.lower()).split(", "))
-        all_ingridients = list(set(all_ingridients))
-        print(all_ingridients)
         return render_template('recipes.html', username=username, all_recipes=all_recipes)
     else:
+        ingredientOption = request.form.get('name_ing')
+        ingredients = request.form.get('ingredients')
         name = request.form.get('name')
         all_recipes = recipes.query.filter(recipes.name.ilike(f'%{name}%'))
+        if ingredients:
+            ingredients = ingredients.split(", ")
+            
+            if ingredientOption == 'all':
+                all_recipes = recipes.query.filter(
+                    *[recipes.ingredients.ilike(f'%{ingredient}%') for ingredient in ingredients]*recipes.name.ilike(f'%{name}%')
+
+                )
+            else:
+                all_recipes = recipes.query.filter(
+                    or_(*[recipes.ingredients.ilike(f'%{ingredient}%') for ingredient in ingredients])*recipes.name.ilike(f'%{name}%')
+                )
         return render_template('recipes.html', username=username, all_recipes=all_recipes)
 
 
@@ -184,6 +193,57 @@ def new_recipes():
         return redirect("/recipes")
     
 
-@app.route("/edit")
+@app.route("/edit", methods = ['POST', 'GET'])
 def edit_rs():
-    return render_template("edit_recipes.html")
+    admin = users.query.filter_by(id=current_user.id).first().is_admin
+    if admin:
+        username = (users.query.filter_by(id=current_user.id).first()).username
+        all_recipes = recipes.query.all()
+        idRecipe= request.form.get("edit_recipes")
+        if request.method == 'GET':
+            return render_template("edit_recipes.html",
+                username = username,
+                all_recipes = all_recipes
+            )
+        else:    
+            return redirect(f"/edit/{idRecipe}", code=302)
+    else:
+        return redirect("/recipes")
+
+
+@app.route("/edit/<string:id>", methods = ['POST', 'GET'])
+def edit(id):
+    admin = users.query.filter_by(id=current_user.id).first().is_admin
+    if admin:
+        username = (users.query.filter_by(id=current_user.id).first()).username
+        recipe_to_edit = recipes.query.filter_by(id=id).first()
+        if request.method == 'GET':
+            return render_template("edit_all.html",
+                username = username,
+                recipe_to_edit=recipe_to_edit
+                
+            )
+        else:
+            name = request.form.get("input_name")
+            ingridients = request.form.get("input_ingridients")
+            steps = request.form.get("input_steps")
+            photo = request.form.get("input_img")
+
+            if not name or not ingridients or not steps or not photo:
+                errors="Заполните все поля"
+                return render_template("edit_all.html",
+                username = username,
+                errors=errors,
+                recipe_to_edit=recipe_to_edit
+            )
+            recipe_to_edit.name = name
+            recipe_to_edit.ingridients = ingridients
+            recipe_to_edit.steps = steps
+            recipe_to_edit.image_url = photo
+
+            db.session.add(recipe_to_edit)
+            db.session.commit()
+
+            return redirect("/recipes", code=302)
+    else:
+        return redirect("/recipes")
