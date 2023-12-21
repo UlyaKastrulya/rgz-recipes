@@ -5,6 +5,8 @@ from flask_login import LoginManager
 from db import db
 from db.models import users, recipes
 from flask_login import login_user, login_required, current_user, logout_user
+from sqlalchemy import or_
+from sqlalchemy import and_
 
 
 
@@ -92,22 +94,39 @@ def recipes_page():
         all_recipes = recipes.query.all()
         return render_template('recipes.html', username=username, all_recipes=all_recipes)
     else:
-        ingredientOption = request.form.get('name_ing')
-        ingredients = request.form.get('ingredients')
+        ingredientOption = request.form.get('ingredientOption')
+        ingredients = request.form.get('name_ing')
         name = request.form.get('name')
         all_recipes = recipes.query.filter(recipes.name.ilike(f'%{name}%'))
-        if ingredients:
-            ingredients = ingredients.split(", ")
-            
-            if ingredientOption == 'all':
-                all_recipes = recipes.query.filter(
-                    *[recipes.ingredients.ilike(f'%{ingredient}%') for ingredient in ingredients]*recipes.name.ilike(f'%{name}%')
+        if ingredientOption == 'any':
 
-                )
+            if ingredients != '' or name != '':
+                name_filter = recipes.name.ilike(f'%{name}%') if name else True  # Фильтр для названия рецепта или True, если название не задано
+
+                if ingredients:
+                    ingredient_filters = [
+                        recipes.ingridients.ilike(f'%{ingredient.strip()}%') for ingredient in ingredients.split(',')
+                    ]
+                    all_recipes = recipes.query.filter(or_(name_filter, *ingredient_filters)).all()
+                else:
+                    all_recipes = recipes.query.filter(name_filter).all()
             else:
-                all_recipes = recipes.query.filter(
-                    or_(*[recipes.ingredients.ilike(f'%{ingredient}%') for ingredient in ingredients])*recipes.name.ilike(f'%{name}%')
-                )
+                all_recipes = recipes.query.all()
+        else:
+            if ingredients != '' or name != '':
+                name_filter = recipes.name.ilike(f'%{name}%') if name else True  # Фильтр для названия рецепта или True, если название не задано
+
+                if ingredients:
+                    ingredient_filters = [
+                        recipes.ingridients.ilike(f'%{ingredient.strip()}%') for ingredient in ingredients.split(',')
+                    ]
+                    all_recipes = recipes.query.filter(and_(name_filter, *ingredient_filters)).all()
+                else:
+                    all_recipes = recipes.query.filter(name_filter).all()
+            else:
+                # В случае, если оба поля не заданы, можно вернуть все рецепты
+                all_recipes = recipes.query.all()
+                
         return render_template('recipes.html', username=username, all_recipes=all_recipes)
 
 
